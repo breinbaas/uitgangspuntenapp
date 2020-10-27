@@ -1,0 +1,137 @@
+<html>
+    <head>
+        <title>Uitgangspunten app Waternet</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap-theme-min.css') }}">
+        <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v1.0.0/mapbox-gl.js'></script>
+        <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v1.0.0/mapbox-gl.css' rel='stylesheet' />
+    </head>
+    <body>
+        <div class="container theme-showcase" role="main">
+            <!-- Main jumbotron for a primary marketing message or call to action -->
+            <div class="jumbotron">
+              <h2 class="display-4">Waternet Uitgangspunten App</h2>              
+              <p class="lead">by Rob van Putten, 2020</p>              
+            </div>   
+            
+            <div class="alert alert-danger" role="alert">
+                <strong>Pas op!</strong> Nog niet in productiefase, uitgangspunten kloppen niet!
+            </div>
+
+        <div class="formwrapper">
+            <form method="POST">
+                <div class="form-field">{{ form.dtcode.label }} {{ form.dtcode }}</div>
+                {{ form.submit }}
+            </form>
+        </div>
+
+        {% if dtinfo %}
+        <div>
+            <p>
+                <table class="table table-striped" style="font-size:12px">
+                    <thead>
+                        <tr>
+                            <th>uitgangspunt</th>
+                            <th>waarde</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>code</td>
+                            <td>{{ dtinfo['dtcode'] }}</td>
+                        </tr>
+                        <tr>
+                            <td>naam</td>
+                            <td>{{ dtinfo['naam'] }}</td>
+                        </tr>
+                        <tr>
+                            <td>mhw</td>
+                            <td>{{ dtinfo['mhw'] }}</td>
+                        </tr>
+                        <tr>
+                            <td>kruinhoogte</td>
+                            <td>{{ dtinfo['kruinhoogte'] }}</td>
+                        </tr>
+                        <tr>
+                            <td>kadeklasse</td>
+                            <td>{{ dtinfo['kadeklasse'] }}</td>
+                        </tr>
+                        <tr>
+                            <td>praktijk peil</td>
+                            <td>{{ dtinfo['praktijkpeil'] }}</td>
+                        </tr>
+                        <tr>
+                            <td>vigerend peil</td>
+                            <td>{{ dtinfo['vigerendpeil'] }}</td>
+                        </tr>
+                        <tr>
+                            <td>ingesteld peil</td>
+                            <td>{{ dtinfo['ingesteldpeil'] }}</td>
+                        </tr>
+                        <tr>
+                            <td>afwijkend peil</td>
+                            <td>{{ dtinfo['afwijkendpeil'] }}</td>
+                        </tr>
+                        <tr>
+                            <td>stijghoogte</td>
+                            <td>{{ dtinfo['stijghoogte'] }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </p>
+        </div>
+        
+
+        {% block content %}
+        <div>
+            <div id='map' style='width: 1140; height: 400px;'></div>
+            <script>
+                mapboxgl.accessToken = 'pk.eyJ1IjoianNvbWEiLCJhIjoibFJmYl9JWSJ9.AUm8d76cbOvVEn2mMeG_ZA';
+                var map = new mapboxgl.Map({
+                    container: 'map',
+                    style: 'mapbox://styles/mapbox/streets-v9',
+                    center: [{{ dtinfo['midpoint'][1] }}, {{ dtinfo['midpoint'][0] }}],
+                    zoom: 12
+                });
+                map.on('load', function() {
+                    map.addSource('route', {
+                        'type': 'geojson',
+                        'data': {
+                            'type': 'Feature',
+                            'properties': {},
+                            'geometry': {
+                            'type': 'LineString',
+                            'coordinates': [
+                                {% for point in dtinfo['reflijn'] %}
+                                [{{ point[4] }}, {{ point[3] }}],
+                                {% endfor %}                            
+                            ]}
+                        }
+                    });
+                    map.addLayer({
+                        'id': 'route',
+                        'type': 'line',
+                        'source': 'route',
+                        'layout': {
+                            'line-join': 'round',
+                            'line-cap': 'round'
+                        },
+                        'paint': {
+                            'line-color': '#d00',
+                            'line-width': 8
+                        }
+                    });
+                })
+            </script>  
+        </div>            
+            
+        {% endblock %}
+        {% endif %}
+
+        </div>
+    </body>
+
+
+
+    
+</html>
