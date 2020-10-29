@@ -108,7 +108,7 @@ def get_uitgangspunten(dtcode, dtchainage):
     
     # PEILEN
     afwijkendpeil = select("SELECT vastpeil, laagpeil, hoogpeil, zomerpeil, winterpeil,"\
-        f"ST_Distance(r.geom,ST_SetSRID(ST_MakePoint({x}, {y}),28992)) FROM afwijkendpeil r ORDER BY 4 ASC LIMIT 1;")[0]
+        f"ST_Distance(r.geom,ST_SetSRID(ST_MakePoint({x}, {y}),28992)) FROM afwijkendpeil r ORDER BY 6 ASC LIMIT 1;")[0]
     ingesteldpeil = select("SELECT vastpeil, laagpeil, hoogpeil, zomerpeil, winterpeil,"\
         f"ST_Distance(r.geom,ST_SetSRID(ST_MakePoint({x}, {y}),28992)) FROM ingesteldpeil r ORDER BY 6 ASC LIMIT 1;")[0]
     praktijkpeil = select("SELECT vastpeil, laagpeil, hoogpeil, zomerpeil, winterpeil,"\
