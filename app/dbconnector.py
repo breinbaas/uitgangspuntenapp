@@ -125,33 +125,31 @@ def get_uitgangspunten(dtcode, dtchainage):
         stijghoogte = round(stijghoogte[0],2)
 
     
+    afwp = ""
     if afwijkendpeil[-1] <= MAX_DISTANCE:
         afwijkendpeil = [v for v in afwijkendpeil[:-2] if v]
         if len(afwijkendpeil) > 0:
-            afwijkendpeil = min(afwijkendpeil)
-    else:
-        afwijkendpeil = ""
+            afwp = min(afwijkendpeil)
 
+    ingp = ""
     if ingesteldpeil[-1] <= MAX_DISTANCE:
         ingesteldpeil = [v for v in ingesteldpeil[:-2] if v]
         if len(ingesteldpeil) > 0:
-            ingesteldpeil = min(ingesteldpeil)
-    else:
-        ingesteldpeil = ""
+            ingp = min(ingesteldpeil)
+    
 
+    prap = ""
     if praktijkpeil[-1] <= MAX_DISTANCE:
         praktijkpeil = [v for v in praktijkpeil[:-2] if v]
         if len(praktijkpeil) > 0:
-            praktijkpeil = min(praktijkpeil)
-    else:
-        praktijkpeil = ""
+            prap = min(praktijkpeil)
     
+    vpeil = ""
     if vigerendpeil[-1] <= MAX_DISTANCE:
         vigerendpeil = [v for v in vigerendpeil[:-2] if v]
         if len(vigerendpeil) > 0:
-            vigerendpeil = min(vigerendpeil)
-    else:
-        vigerendpeil = ""
+            vpeil = min(vigerendpeil)
+    
     
     # find middle point
     lats = [p[3] for p in reflijn]
@@ -165,10 +163,10 @@ def get_uitgangspunten(dtcode, dtchainage):
         "chainagepoint":chainagepoint,
         "dtcode":dtcode,
         "metrering":int(dtchainage),
-        "afwijkendpeil":afwijkendpeil,
-        "ingesteldpeil":ingesteldpeil,
-        "praktijkpeil":praktijkpeil,
-        "vigerendpeil":vigerendpeil,
+        "afwijkendpeil":afwp,
+        "ingesteldpeil":ingp,
+        "praktijkpeil":prap,
+        "vigerendpeil":vpeil,
         "naam":dtnaam,
         "kruinhoogte":kruinhoogte,
         "mhw":mhw,
