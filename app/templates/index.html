@@ -10,18 +10,17 @@
         <div class="container theme-showcase" role="main">
             <!-- Main jumbotron for a primary marketing message or call to action -->
             <div class="jumbotron">
-              <h2 class="display-4">Waternet Uitgangspunten App</h2>              
+              <h2 class="display-4">Uitgangspunten App</h2>              
               <p class="lead">by Rob van Putten, 2020</p>              
             </div>   
             
-            <div class="alert alert-danger" role="alert">
-                <strong>Pas op!</strong> Nog niet in productiefase, uitgangspunten kloppen niet!
+            <div class="alert alert-warning" role="alert">
+                <strong>Let op</strong> Aan deze informatie kunnen geen rechten ontleend worden, check je uitgangspunten!
             </div>
 
         <div class="formwrapper">
             <form method="POST">
-                <div class="form-field">{{ form.dtcode.label }} {{ form.dtcode }}</div>
-                {{ form.submit }}
+                <div class="form-field">{{ form.dtcode.label }} {{ form.dtcode }} metrering: {{ form.dtchainage }} {{ form.submit  }} </div>
             </form>
         </div>
 
@@ -41,6 +40,10 @@
                             <td>{{ dtinfo['dtcode'] }}</td>
                         </tr>
                         <tr>
+                            <td>metrering</td>
+                            <td>{{ dtinfo['metrering'] }}</td>
+                        </tr>
+                        <tr>
                             <td>naam</td>
                             <td>{{ dtinfo['naam'] }}</td>
                         </tr>
@@ -57,8 +60,8 @@
                             <td>{{ dtinfo['kadeklasse'] }}</td>
                         </tr>
                         <tr>
-                            <td>praktijk peil</td>
-                            <td>{{ dtinfo['praktijkpeil'] }}</td>
+                            <td>praktijk peil</td>                            
+                            <td>{{ dtinfo['praktijkpeil'] }}</td>                            
                         </tr>
                         <tr>
                             <td>vigerend peil</td>
@@ -90,8 +93,8 @@
                 var map = new mapboxgl.Map({
                     container: 'map',
                     style: 'mapbox://styles/mapbox/streets-v9',
-                    center: [{{ dtinfo['midpoint'][1] }}, {{ dtinfo['midpoint'][0] }}],
-                    zoom: 12
+                    center: [{{ dtinfo['chainagepoint'][1] }}, {{ dtinfo['chainagepoint'][0] }}],
+                    zoom: 15
                 });
                 map.on('load', function() {
                     map.addSource('route', {
@@ -121,6 +124,9 @@
                             'line-width': 8
                         }
                     });
+                    var marker = new mapboxgl.Marker()
+                        .setLngLat([{{ dtinfo['chainagepoint'][1] }}, {{ dtinfo['chainagepoint'][0] }}])
+                        .addTo(map);
                 })
             </script>  
         </div>            

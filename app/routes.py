@@ -8,9 +8,13 @@ from app.dbconnector import get_uitgangspunten
 def index():
     form = DTForm()    
     dtcode = request.form.get("dtcode")
+    try:
+        dtchainage = int(request.form.get("dtchainage"))
+    except:
+        dtchainage = 0
 
     if dtcode: 
-        dtinfo = get_uitgangspunten(dtcode)  
+        dtinfo = get_uitgangspunten(dtcode, dtchainage)  
         return render_template('index.html', form=form, dtinfo=dtinfo)
     else:
         return render_template('index.html', form=form)
