@@ -93,16 +93,16 @@ def get_uitgangspunten(dtcode, dtchainage):
 
 
     # MHW, KRUINHOOGTE AND KADEKLASSE
-    kadeinfo = select("SELECT mhw, kruinhoogte, kadeklasse,ST_Distance(ST_Buffer(r.geom,20),"\
+    kadeinfo = select("SELECT mhw, dth, kadeklasse,ST_Distance(ST_Buffer(r.geom,20),"\
         f"ST_SetSRID(ST_MakePoint({x}, {y}),28992))"\
         "FROM kadeinfo r ORDER BY 4 ASC LIMIT 1;")[0]
     if kadeinfo[-1] > MAX_DISTANCE:
         mhw = -9999.
-        kruinhoogte = -9999.
+        dth = -9999.
         kadeklasse = -9999.
     else:
         mhw = kadeinfo[0]
-        kruinhoogte = kadeinfo[1]
+        dth = kadeinfo[1]
         kadeklasse = kadeinfo[2]
 
     
@@ -168,7 +168,7 @@ def get_uitgangspunten(dtcode, dtchainage):
         "praktijkpeil":prap,
         "vigerendpeil":vpeil,
         "naam":dtnaam,
-        "kruinhoogte":kruinhoogte,
+        "dth":dth,
         "mhw":mhw,
         "kadeklasse":kadeklasse,
         "stijghoogte":stijghoogte,
