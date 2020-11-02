@@ -88,6 +88,16 @@
         {% block content %}
         <div>
             <div id='map' style='width: 1140; height: 400px;'></div>
+
+            <style>
+                .mapboxgl-marker:hover {
+                    cursor: pointer;
+                }
+                .mapboxgl-marker:hover svg > g > g:nth-child(2) {
+                    fill: #7993a5;
+                }
+            </style>
+
             <script>
                 mapboxgl.accessToken = 'pk.eyJ1IjoianNvbWEiLCJhIjoibFJmYl9JWSJ9.AUm8d76cbOvVEn2mMeG_ZA';
                 var map = new mapboxgl.Map({
@@ -127,6 +137,10 @@
                     var marker = new mapboxgl.Marker()
                         .setLngLat([{{ dtinfo['chainagepoint'][1] }}, {{ dtinfo['chainagepoint'][0] }}])
                         .addTo(map);
+
+                    marker.getElement().addEventListener('click', event => {
+                        window.location.href = 'https://www.google.com/maps/@?api=1&map_action=pano&viewpoint={{ dtinfo['chainagepoint'][0] }},{{ dtinfo['chainagepoint'][1] }}';
+                    });
                 })
             </script>  
         </div>            
